@@ -1,0 +1,21 @@
+{
+  "name": "make-me-rich",
+  "version": "1.0.0",
+  "description": "Dummy trading app with services, controllers, and skills",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node --experimental-vm-modules dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "track": "ts-node src/tracker.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "axios": "^1.13.6",
+    "yahoo-finance2": "^3.14.0"
+  }
+}

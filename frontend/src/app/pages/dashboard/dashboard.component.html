@@ -1,0 +1,61 @@
+<div class="dashboard">
+  <header>
+    <h1>Munger Tracker</h1>
+    <p class="subtitle">48-month moving average · buy −20% · sell +20%</p>
+    <button (click)="tracker.loadAll()" [disabled]="tracker.loading()">
+      {{ tracker.loading() ? 'Loading…' : 'Refresh' }}
+    </button>
+  </header>
+
+  <div class="spinner-wrap" *ngIf="tracker.loading()">
+    <div class="spinner"></div>
+    <p>Fetching data from CoinGecko…</p>
+  </div>
+
+  <div class="error" *ngIf="tracker.error()">{{ tracker.error() }}</div>
+
+  <ng-container *ngIf="!tracker.loading()">
+
+    <section *ngIf="buys().length">
+      <h2 class="label buy">BUY SIGNALS</h2>
+      <div class="grid">
+        <div class="card" [class]="signalClass(a.signal)" *ngFor="let a of buys()">
+          <ng-container *ngTemplateOutlet="cardBody; context: { a }"></ng-container>
+        </div>
+      </div>
+    </section>
+
+    <section *ngIf="sells().length">
+      <h2 class="label sell">SELL SIGNALS</h2>
+      <div class="grid">
+        <div class="card" [class]="signalClass(a.signal)" *ngFor="let a of sells()">
+          <ng-container *ngTemplateOutlet="cardBody; context: { a }"></ng-container>
+        </div>
+      </div>
+    </section>
+
+    <section *ngIf="holds().length">
+      <h2 class="label hold">HOLD</h2>
+      <div class="grid">
+        <div class="card hold" *ngFor="let a of holds()">
+          <ng-container *ngTemplateOutlet="cardBody; context: { a }"></ng-container>
+        </div>
+      </div>
+    </section>
+
+  </ng-container>
+</div>
+
+<ng-template #cardBody let-a="a">
+  <div class="card-head">
+    <span class="name">{{ a.name }}</span>
+    <span class="symbol">{{ a.symbol }}</span>
+  </div>
+  <div class="metrics">
+    <div class="metric"><label>Price</label><span>{{ formatPrice(a.currentPrice) }}</span></div>
+    <div class="metric"><label>48m Avg</label><span>{{ formatPrice(a.avg48) }}</span></div>
+    <div class="metric"><label>Dev</label><span>{{ a.deviation >= 0 ? '+' : '' }}{{ (a.deviation * 100).toFixed(1) }}%</span></div>
+  </div>
+  <div class="badge" [class]="signalClass(a.signal)">{{ a.signal }}</div>
+  <p class="action">{{ a.action }}</p>
+</ng-template>

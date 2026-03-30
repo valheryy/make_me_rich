@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm uninstall:*)",
+      "Bash(rm -f app.ts app.html app.scss app-module.ts)",
+      "Bash(rm -f services/asset.service.ts)",
+      "Bash(rm -rf components/)"
+    ]
+  }
+}
